@@ -9,7 +9,7 @@ from oscarapi import serializers
 Selector = get_class('partner.strategy', 'Selector')
 
 __all__ = (
-    'ProductList', 'ProductDetail',
+    'ProductList', 'ProductDetail', 'ProductListDetailed',
     'ProductPrice', 'ProductAvailability',
 )
 
@@ -38,6 +38,9 @@ class ProductList(generics.ListAPIView):
 
         return qs
 
+class ProductListDetailed(generics.ListAPIView):
+    queryset = Product.objects.all()
+    serializer_class = serializers.ProductSerializer
 
 class ProductDetail(generics.RetrieveAPIView):
     queryset = Product.objects.all()
