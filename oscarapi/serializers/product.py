@@ -18,6 +18,8 @@ AttributeOption = get_model('catalogue', 'AttributeOption')
 ProductImage = get_model('catalogue', 'ProductImage')
 Option = get_model('catalogue', 'Option')
 Partner = get_model('partner', 'Partner')
+StockRecord = get_model('partner', 'StockRecord')
+ProductRecord = get_model('analytics', 'ProductRecord')
 
 
 class PartnerSerializer(OscarModelSerializer):
@@ -84,6 +86,15 @@ class ProductImageSerializer(OscarModelSerializer):
         model = ProductImage
         fields = '__all__'
 
+class ProductStockRecordsSerializer(OscarModelSerializer):
+    class Meta:
+        model = StockRecord
+        fields = '__all__'
+
+class ProductRecordsSerializer(OscarModelSerializer):
+    class Meta:
+        model = ProductRecord
+        fields = '__all__'
 
 class AvailabilitySerializer(serializers.Serializer):
     is_available_to_buy = serializers.BooleanField()
@@ -102,8 +113,10 @@ class RecommmendedProductSerializer(OscarModelSerializer):
 
 class BaseProductSerializer(OscarModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='product-detail')
-    stockrecords = serializers.HyperlinkedIdentityField(
-        view_name='product-stockrecord-list')
+    #stockrecords = serializers.HyperlinkedIdentityField(
+    #    view_name='product-stockrecord-list')
+    stockrecords = ProductStockRecordsSerializer(many=True, required=False)
+    stats = ProductRecordsSerializer(many=False, required=False)
     attributes = ProductAttributeValueSerializer(
         many=True, required=False, source="attribute_values")
     categories = serializers.StringRelatedField(many=True, required=False)
@@ -143,7 +156,7 @@ class ChildProductserializer(BaseProductSerializer):
                 # in your settings file
                 'date_created', 'date_updated', 'recommended_products',
                 'attributes', 'categories', 'product_class',
-                'stockrecords', 'price', 'availability', 'options'))
+                'stockrecords', 'price', 'availability', 'options', 'stats'))
 
 
 class ProductSerializer(BaseProductSerializer):
@@ -158,7 +171,7 @@ class ProductSerializer(BaseProductSerializer):
                 'date_created', 'date_updated', 'recommended_products',
                 'attributes', 'categories', 'product_class',
                 'stockrecords', 'images', 'price', 'availability', 'options',
-                'children'))
+                'children', 'stats'))
 
 
 class ProductLinkSerializer(ProductSerializer):
