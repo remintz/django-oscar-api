@@ -10,10 +10,11 @@ Selector = get_class('partner.strategy', 'Selector')
 
 __all__ = (
     'ProductList', 'ProductDetail', 'ProductListDetailed',
-    'ProductPrice', 'ProductAvailability',
+    'ProductPrice', 'ProductAvailability', 'ProductRecords',
 )
 
 Product = get_model('catalogue', 'Product')
+ProductRecord = get_model('analytics', 'ProductRecord')
 
 
 class ProductList(generics.ListAPIView):
@@ -41,6 +42,10 @@ class ProductList(generics.ListAPIView):
 class ProductListDetailed(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = serializers.ProductSerializer
+
+class ProductRecords(generics.ListAPIView):
+    queryset = ProductRecord.objects.all()
+    serializer_class = serializers.ProductRecordsSerializer
 
 class ProductDetail(generics.RetrieveAPIView):
     queryset = Product.objects.all()

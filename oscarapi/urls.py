@@ -21,6 +21,7 @@ urlpatterns = [
     url(r'^lineattributes/(?P<pk>[0-9]+)/$', views.LineAttributeDetail.as_view(), name='lineattribute-detail'),
     url(r'^products/$', views.ProductList.as_view(), name='product-list'),
     url(r'^productsdetails/$', views.ProductListDetailed.as_view(), name='product-list-detailed'),
+    url(r'^productrecords/$', views.ProductRecords.as_view(), name='product-record-list'),
     url(r'^products/(?P<pk>[0-9]+)/$', views.ProductDetail.as_view(), name='product-detail'),
     url(r'^products/(?P<pk>[0-9]+)/price/$', views.ProductPrice.as_view(), name='product-price'),
     url(r'^products/(?P<pk>[0-9]+)/availability/$', views.ProductAvailability.as_view(), name='product-availability'),
